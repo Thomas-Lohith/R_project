@@ -140,20 +140,36 @@ proportion_ckd
 mean_hemo<- mean(kidney_data$hemo, na.rm = TRUE)
 median_hemo<- median(kidney_data$hemo, na.rm = TRUE)
 
+#b. Divide the samples into cases (classification: ckd = 1) and controls (classification: notckd = 0).
+
+kidney_data$class_binary <- ifelse(kidney_data$class == "ckd", 1, 0)
+
+cases <- kidney_data %>% filter(class_binary == 1)
+controls <- kidney_data %>% filter(class_binary == 0)
 
 
+#c. Is there a difference between the two means (cases vs controls)? What is the significance of this
+#difference? Apply the correct statistical test and comment the result.
+
+#we can apply the t TEST 
+
+t_test_result <- t.test(cases$hemo, controls$hemo)
+t_test_result
+
+#d. Does it make sense to apply the same test as in point c, but on one tail? Comment on the answer.
+
+t_test_result_one_tailed <- t.test(cases$hemo, controls$hemo, alternative = "greater")
+t_test_result_one_tailed
 
 
+#9Standardize the numerical variables (all except CKD) and reconstruct the dataset with only the numeric
+#variables and CKD.
+
+#9: Standardize numerical variables
 
 
-
-b. Divide the samples into cases (classification: ckd = 1) and controls (classification: notckd = 0).
-c. Is there a difference between the two means (cases vs controls)? What is the significance of this
-difference? Apply the correct statistical test and comment the result.
-d. Does it make sense to apply the same test as in point c, but on one tail? Comment on the answer.
-
-
-
-
+# Reconstruct the dataset with standardized numerical variables and CKD
+standardized_data <-numerical_varibles %>%
+  mutate(across(everything(), scale)
 
 
